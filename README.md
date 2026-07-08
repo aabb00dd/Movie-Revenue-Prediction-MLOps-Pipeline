@@ -76,7 +76,7 @@ Logged items include:
 - Number of features
 - Saved model and preprocessing artifacts
 
-![MLflow Metrics](docs/images/mlflow_metrics.png)
+![MLflow Metrics](images/mlflow_metrics.png)
 
 ---
 
@@ -94,7 +94,7 @@ Open the interactive API documentation:
 http://127.0.0.1:8000/docs
 ```
 
-![FastAPI Docs](docs/images/fastapi_docs.png)
+![FastAPI Docs](images/fastapi_docs.png)
 
 ---
 
@@ -130,7 +130,7 @@ http://127.0.0.1:8000/docs
 }
 ```
 
-![Prediction Response](docs/images/prediction_response.png)
+![Prediction Response](images/prediction_response.png)
 
 ---
 
@@ -201,7 +201,7 @@ Open:
 http://localhost:8000/docs
 ```
 
-![Docker Image](docs/images/docker_image.png)
+![Docker Image](images/docker_image.png)
 
 ---
 
