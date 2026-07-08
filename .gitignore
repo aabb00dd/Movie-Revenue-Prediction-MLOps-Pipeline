@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data
+data/raw/
+
+# Model artifacts
+models/*.joblib
+models/*.pkl
+
+# MLflow local tracking
+mlruns/
+mlflow.db
+
+# Logs / temporary files
+train_output.txt
+*.log
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
