@@ -2,7 +2,7 @@
 
 Production-style machine learning pipeline for predicting whether a movie is likely to achieve **high revenue** using structured TMDB-style metadata.
 
-This project upgrades a notebook-based machine learning workflow into a reusable MLOps project with data cleaning, feature engineering, model training, MLflow experiment tracking, FastAPI inference, automated tests, and Docker support.
+This project upgrades a notebook-based machine learning workflow into a reusable MLOps system with data cleaning, feature engineering, model training, MLflow experiment tracking, FastAPI inference, automated testing, Docker containerization, and a GitHub Actions CI/CD pipeline.
 
 ---
 
@@ -22,13 +22,17 @@ This is a binary classification task, not exact revenue regression.
 ## Tech Stack
 
 - Python
-- Pandas, NumPy
-- Scikit-learn
+- Pandas
+- NumPy
+- scikit-learn
 - XGBoost
 - MLflow
 - FastAPI
-- Pytest
+- pytest
 - Docker
+- GitHub Actions
+- GitHub Container Registry
+- CI/CD
 
 ---
 
@@ -43,7 +47,10 @@ Raw TMDB data
 → MLflow experiment tracking
 → Saved model artifacts
 → FastAPI prediction endpoint
-→ Dockerized API
+→ Automated pytest tests
+→ Docker image build
+→ GitHub Actions CI/CD
+→ GitHub Container Registry
 ```
 
 ---
@@ -170,10 +177,10 @@ http://127.0.0.1:5000
 ## Run Tests
 
 ```bash
-pytest
+python -m pytest tests -v
 ```
 
-The tests check:
+The automated tests check:
 
 - API health endpoint
 - API prediction endpoint
@@ -205,9 +212,63 @@ http://localhost:8000/docs
 
 ---
 
+## CI/CD with GitHub Actions
+
+The project includes a GitHub Actions workflow located at:
+
+```text
+.github/workflows/ci-cd.yml
+```
+
+The workflow runs automatically when code is pushed to the `main` branch or when a pull request targets `main`.
+
+The CI/CD pipeline:
+
+1. Checks out the repository
+2. Sets up the Python environment
+3. Installs project dependencies
+4. Verifies the project imports
+5. Runs the automated pytest test suite
+6. Builds the Docker image
+7. Publishes validated Docker images to GitHub Container Registry
+
+The Docker build runs only after all automated tests pass.
+
+```text
+Code push or pull request
+→ Install dependencies
+→ Verify imports
+→ Run pytest tests
+→ Build Docker image
+→ Publish validated image
+```
+
+For pull requests, the workflow tests the project and builds the Docker image without publishing it.
+
+For pushes to `main`, the validated image is published to GitHub Container Registry.
+
+Example image location:
+
+```text
+ghcr.io/aabb00dd/movie-revenue-prediction-mlops-pipeline:latest
+```
+
+This workflow provides:
+
+- Continuous Integration through automated testing
+- Continuous Delivery through automated Docker image publication
+- Reproducible builds
+- Early detection of integration and dependency errors
+
+---
+
 ## Project Structure
 
 ```text
+.github/
+  workflows/
+    ci-cd.yml
+
 app/
   main.py
 
@@ -227,6 +288,10 @@ models/
   preprocessing.joblib
   feature_columns.json
   model_metadata.json
+
+Dockerfile
+requirements.txt
+README.md
 ```
 
 ---
@@ -237,13 +302,17 @@ models/
 - The target is based on the median revenue of the cleaned dataset.
 - Predictions depend on the quality and completeness of movie metadata.
 - The dataset may contain noisy, missing, or inconsistent records.
+- The CI/CD workflow publishes a Docker image but does not deploy the API to a live production environment.
+- Trained model artifacts may need to be generated or mounted before predictions can be served.
 
 ---
 
 ## Future Improvements
 
-- Deploy the API publicly
-- Add CI/CD with GitHub Actions
+- Deploy the API to a public cloud platform
+- Add automated production deployment
 - Add model registry support
 - Add monitoring for data drift and prediction drift
+- Add automated code-quality and security checks
 - Compare additional models and tuned hyperparameters
+````
